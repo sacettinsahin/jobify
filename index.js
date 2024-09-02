@@ -48,8 +48,7 @@ app.get("/api/v1/jobs/:id", (req, res) => {
   const { id } = req.params;
   const job = jobs.find((job) => job.id === id);
   if (!job) {
-    res.status(404).json({ message: `No job with id: ${id}` });
-    return;
+    throw new Error(`No job with id: ${id}`)
   }
 
   res.status(200).json({ job });
@@ -91,6 +90,18 @@ app.delete("/api/v1/jobs/:id", (req, res) => {
     .status(200)
     .json({ message: `This data deleted successfully, id: ${id}` });
 });
+
+
+// not found route.
+app.use("*", (req,res)=>{
+    res.status(404).json({message:"This URL not found."})
+})
+// trigger with "throw new Error('...')
+app.use((err, req, res, next)=> {
+    console.log(err);
+    res.status(500).json({message: "something went wrong"})
+})
+
 
 const port = process.env.PORT || 5100;
 app.listen(port, () => {
