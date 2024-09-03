@@ -11,7 +11,7 @@ import jobRouter from "./routes/jobRouter.js"
 import authRouter from "./routes/authRouter.js"
 //middleware
 import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
-
+import {authenticateUser} from "./middleware/authMiddleware.js"
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -21,8 +21,8 @@ if (process.env.NODE_ENV === "development") {
 app.use(express.json());
 
 // ROUTE
-app.use("/api/v1/jobs", jobRouter)
-app.use("/api/v1/auth", authRouter)
+app.use("/api/v1/jobs", authenticateUser, jobRouter) //auth middleware (private route)
+app.use("/api/v1/auth", authRouter) //public route
 
 // not found route.
 app.use("*", (req, res) => {
