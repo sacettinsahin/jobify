@@ -4,8 +4,11 @@ dotenv.config();
 import express from "express";
 const app = express();
 import morgan from "morgan";
-import jobRouter from "./routes/jobRouter.js"
 import mongoose from "mongoose";
+
+//routes
+import jobRouter from "./routes/jobRouter.js"
+//middleware
 import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
 
 
