@@ -22,4 +22,5 @@ const JobSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// first value-> table name
 export default mongoose.model("Job", JobSchema);

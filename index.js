@@ -1,3 +1,4 @@
+import "express-async-errors"; //try-catch
 import * as dotenv from "dotenv";
 dotenv.config();
 import express from "express";
@@ -20,7 +21,8 @@ app.use("/api/v1/jobs", jobRouter)
 app.use("*", (req, res) => {
   res.status(404).json({ message: "This URL not found." });
 });
-// trigger with "throw new Error('...')
+// trigger with "throw new Error('...') 
+//and no need to try catch blocks.(express-async-errors)
 app.use((err, req, res, next) => {
   console.log(err);
   res.status(500).json({ message: "something went wrong" });
