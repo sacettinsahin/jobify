@@ -1,15 +1,17 @@
 import JobSchema from "../models/JobModel.js";
+import { StatusCodes } from "http-status-codes";
+
 
 // GET ALL JOBS
 export const getAllJobs = async (req, res) => {
   const jobs = await JobSchema.find({}); //first parameter is filter.
-  res.status(200).json({ jobs });
+  res.status(StatusCodes.OK).json({ jobs });
 };
 
 // CREATE JOB
 export const createJob = async (req, res) => {
   const newJob = await JobSchema.create(res.body);
-  res.status(201).json({ newJob });
+  res.status(StatusCodes.CREATED).json({ newJob });
 };
 
 // GET SINGLE JOB
@@ -18,7 +20,7 @@ export const getJob = async (req, res) => {
   const job = await JobSchema.findById(id);
 
   if (!job) {
-    return res.status(404).json({message:`No job with id: ${id}`});
+    return res.status(StatusCodes.NOT_FOUND).json({message:`No job with id: ${id}`});
   }
   res.status(200).json({ job });
 };
@@ -31,11 +33,11 @@ export const updateJob = async (req, res) => {
   })
 
   if (!updatedJob) {
-    res.status(404).json({ message: `No job with id: ${id}` });
+    res.status(StatusCodes.NOT_FOUND).json({ message: `No job with id: ${id}` });
     return;
   }
 
-  res.status(200).json({ message: "Job is updated successfully", job:updatedJob });
+  res.status(StatusCodes.OK).json({ message: "Job is updated successfully", job:updatedJob });
 };
 
 // DELETE JOB
@@ -43,9 +45,9 @@ export const deleteJob = async (req, res) => {
   const { id } = req.params;
   const removedJob = await JobSchema.findByIdAndDelete(id);
   if (!removedJob) {
-    res.status(404).json({ message: `No job with id: ${id}` });
+    res.status(StatusCodes.NOT_FOUND).json({ message: `No job with id: ${id}` });
     return;
   }
 
-  res.status(200).json({ message: "Job deleted", job: removedJob });
+  res.status(StatusCodes.OK).json({ message: "Job deleted", job: removedJob });
 };
