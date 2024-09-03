@@ -6,6 +6,8 @@ const app = express();
 import morgan from "morgan";
 import jobRouter from "./routes/jobRouter.js"
 import mongoose from "mongoose";
+import errorHandlerMiddleware from "./middleware/errorHandlerMiddleware.js";
+
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -21,12 +23,9 @@ app.use("/api/v1/jobs", jobRouter)
 app.use("*", (req, res) => {
   res.status(404).json({ message: "This URL not found." });
 });
-// trigger with "throw new Error('...') 
-//and no need to try catch blocks.(express-async-errors)
-app.use((err, req, res, next) => {
-  console.log(err);
-  res.status(500).json({ message: "something went wrong" });
-});
+
+// ERROR HANDLER MIDDLEWARE
+app.use(errorHandlerMiddleware);
 
 // DB CONNECTION
 const port = process.env.PORT || 5100;
