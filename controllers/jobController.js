@@ -3,6 +3,7 @@ import { StatusCodes } from "http-status-codes";
 
 // GET ALL JOBS
 export const getAllJobs = async (req, res) => {
+  console.log(req.user)
   const jobs = await JobSchema.find({}); //first parameter is filter.
   res.status(StatusCodes.OK).json({ jobs });
 };
