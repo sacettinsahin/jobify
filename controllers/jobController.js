@@ -1,6 +1,5 @@
 import JobSchema from "../models/JobModel.js";
 import { StatusCodes } from "http-status-codes";
-import { NotFoundError } from "../errors/customErrors.js";
 
 // GET ALL JOBS
 export const getAllJobs = async (req, res) => {
@@ -16,26 +15,19 @@ export const createJob = async (req, res) => {
 
 // GET SINGLE JOB
 export const getJob = async (req, res) => {
-  const { id } = req.params;
-  const job = await JobSchema.findById(id);
-
-  if (!job) {
-    throw new NotFoundError(`no job with id: ${id}`);
-  }
-
+  const job = await JobSchema.findById(req.params.id);
   res.status(200).json({ job });
 };
 
 // EDIT JOB
 export const updateJob = async (req, res) => {
-  const { id } = req.params;
-  const updatedJob = await JobSchema.findByIdAndUpdate(id, req.body, {
-    new: true,
-  });
-
-  if (!updatedJob) {
-    throw new NotFoundError(`no job with id: ${id}`);
-  }
+  const updatedJob = await JobSchema.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    {
+      new: true,
+    }
+  );
 
   res
     .status(StatusCodes.OK)
@@ -44,11 +36,6 @@ export const updateJob = async (req, res) => {
 
 // DELETE JOB
 export const deleteJob = async (req, res) => {
-  const { id } = req.params;
-  const removedJob = await JobSchema.findByIdAndDelete(id);
-  if (!removedJob) {
-    throw new NotFoundError(`no job with id: ${id}`);
-  }
-
+  const removedJob = await JobSchema.findByIdAndDelete(req.params.id);
   res.status(StatusCodes.OK).json({ message: "Job deleted", job: removedJob });
 };
