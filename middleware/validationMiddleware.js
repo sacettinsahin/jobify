@@ -48,6 +48,7 @@ export const validateIdParam = withValidationErrors([
   }),
 ]);
 
+//register
 export const validateRegisterInput = withValidationErrors([
   body("name").notEmpty().withMessage("name is required"),
   body("lastName").notEmpty().withMessage("last name is required"),
@@ -69,4 +70,16 @@ export const validateRegisterInput = withValidationErrors([
     .withMessage("Password must be at least 8 characters long."),
   body("location").notEmpty().withMessage("location is required"),
   body("role").isIn(Object.values(ROLE)).withMessage("invalid role"),
+]);
+
+//login
+export const validateLoginInput = withValidationErrors([
+  body("email")
+    .notEmpty()
+    .withMessage("email is required")
+    .isEmail()
+    .withMessage("invalid email format."),
+  body("password")
+    .notEmpty()
+    .withMessage("password is required")
 ]);
