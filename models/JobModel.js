@@ -10,12 +10,12 @@ const JobSchema = new mongoose.Schema(
       enum: Object.values(JOB_STATUS),
       default: JOB_STATUS.PENDING,
     },
-    jobTye: {
+    jobType: {
       type: String,
       enum: Object.values(JOB_TYPE),
       default: JOB_TYPE.FULL_TIME,
     },
-    jobLocaltion: {
+    jobLocation: {
       type: String,
       default: "my city",
     },
